@@ -10,13 +10,13 @@ spec:
     component: influxdb
   ports:
   - name: http
-    port: 8083
-    protocol: TCP
-    nodePort: 30083
-  - name: admin-ui
     port: 8086
     protocol: TCP
     nodePort: 30086
+  - name: admin-ui
+    port: 8083
+    protocol: TCP
+    nodePort: 30083
 ---
 apiVersion: "apps/v1alpha1"
 kind: PetSet
@@ -40,7 +40,7 @@ spec:
         - containerPort: 8086
           name: http
         - containerPort: 8083 
-          name: admin_ui
+          name: admin-ui
         resources:
           limits:
             cpu: "1024m"
@@ -48,17 +48,11 @@ spec:
           requests:
            cpu: "500m"
            memory: 1Gi
-        securityContext:
-          capabilities:
-            add:
-              - IPC_LOCK
         env:
         readinessProbe:
-          exec:
-            command:
-            - /bin/bash
-            - -c
-            - /ready-probe.sh
+          httpGet:
+            path: /
+            port: 8083
           initialDelaySeconds: 15
           timeoutSeconds: 5
         # These volume mounts are persistent. They are like inline claims,
