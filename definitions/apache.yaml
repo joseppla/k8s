@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache
+  labels:
+    component: apache
+spec:
+  type: LoadBalancer
+  selector:
+    component: apache
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+#- name: admin-ui
+#  port: 443
+#  protocol: TCP
+---
+apiVersion: "extensions/v1beta1"
+kind: Deployment
+metadata:
+  name: apache
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+      labels:
+        app: apache
+    spec:
+      containers:
+      - name: apache
+        image: httpd:2.2.32
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+  #     - containerPort: 443 
+  #       name: admin-ui
+#       resources:
+#         limits:
+#           cpu: "1024m"
+#           memory: 2Gi
+#         requests:
+#          cpu: "500m"
+#          memory: 1Gi
+#       env:
+#       readinessProbe:
+#         httpGet:
+#           path: /
+#           port: 80
+#         initialDelaySeconds: 15
+#         timeoutSeconds: 5
+        # These volume mounts are persistent. They are like inline claims,
+        # but not exactly because the names need to match exactly one of
+        # the stateful pod volumes.
+#       volumeMounts:
+#       - name: apache-data
+#         mountPath: /apache_data
+#       - mountPath: /etc/apache
+#         name: apache-config
+#     volumes:
+#       - name: apache-config
+#         configMap:
+#           name: apache-configmap
+#           items:
+#             - key: apache.conf
+#               path: apache.conf
+  # These are converted to volume claims by the controller
+  # and mounted at the paths mentioned above.
+  # do not use these in production until ssd GCEPersistentDisk or other ssd pd
+#volumeClaimTemplates:
+#- metadata:
+#    name: apache-data
+#    annotations:
+#      volume.alpha.kubernetes.io/storage-class: HostPath
+#  spec:
+#    accessModes: [ "ReadWriteOnce" ]
+#    resources:
+#      requests:

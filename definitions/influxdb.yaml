@@ -61,6 +61,15 @@ spec:
         volumeMounts:
         - name: influxdb-data
           mountPath: /influxdb_data
+        - mountPath: /etc/influxdb
+          name: influxdb-config
+      volumes:
+        - name: influxdb-config
+          configMap:
+            name: influxdb-configmap
+            items:
+              - key: influxdb.conf
+                path: influxdb.conf
   # These are converted to volume claims by the controller
   # and mounted at the paths mentioned above.
   # do not use these in production until ssd GCEPersistentDisk or other ssd pd
