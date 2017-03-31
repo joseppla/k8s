@@ -39,8 +39,10 @@ controllerInstanceType: m3.medium
 # # Descomentamos este, es el número de workers que queremos en el cluster de Kubernetes, los nodos que se 
 # #encargaran de arrancar los servicios que creemos nosotros, lo pondremos a 4 para tener 2 por zona.
 # # Fix de última hora, este parámetro ya no es válido y lo sustituimos por #workers.nodePools[].count = 4
-# #workerCount: 4
-worker.nodePools[].count: 4
+worker:
+  nodePools:
+  - name: nodepool1
+    count: 4
 #
 # # Descomentamos este, el tipo de instancia de los workers, según lo que queramos deployar ha de ser mayor o 
 # # menor, para nuestro proposito pondremos las mismas que en los masters pero según lo que queramos han de ser
@@ -82,7 +84,7 @@ subnets:
 tlsCertDurationDays: 3650
 
 # Descomentamos este si queremos cambiar la versión del SO base, actualizaremos a la última versión estable.
-kubernetesVersion: v1.5.3_coreos.1
+kubernetesVersion: v1.5.3_coreos.0
 
 # Descomentamos estos para poner tags al cluster y asi podelos diferenciar cuanto tengamos varios clusters, 
 # realmente no es necesario si deployamos uno pero así vemos como queda todo

@@ -19,7 +19,7 @@ spec:
     nodePort: 30083
 ---
 apiVersion: "apps/v1alpha1"
-kind: PetSet
+kind: DaemonSet
 metadata:
   name: influxdb
 spec:

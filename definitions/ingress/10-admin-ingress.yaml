@@ -1,0 +1,66 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pro-admin-ing
+  namespace: default
+spec:
+  tls:
+  - hosts:
+    - admin.netquest.digital
+    - product-extractor.netquest.digital
+    - audience.netquest.digital
+    - rimweighting.netquest.digital
+    - peekurls.netquest.digital
+    - navigation.netquest.digital
+    - netrica-importer.netquest.digital
+    secretName: pro-tls
+  rules:
+  - host: admin.netquest.digital
+    http:
+      paths:
+      - backend:
+          serviceName: analytics-web-admin
+          servicePort: 80
+        path: /
+  - host: product-extractor.netquest.digital
+    http:
+      paths:
+      - backend:
+          serviceName: product-extractor
+          servicePort: 80
+        path: /
+  - host: audience.netquest.digital
+    http:
+      paths:
+      - backend:
+          serviceName: audience-web
+          servicePort: 80
+        path: /
+  - host: rimweighting.netquest.digital
+    http:
+      paths:
+      - backend:
+          serviceName: rimweighting-processor
+          servicePort: 8080
+        path: /
+  - host: peekurls.netquest.digital
+    http:
+      paths:
+      - backend:
+          serviceName: peekurls
+          servicePort: 8090
+        path: /
+  - host: navigation.netquest.digital
+    http:
+      paths:
+      - backend:
+          serviceName: navigations-bkp
+          servicePort: 8081
+        path: /
+  - host: netrica-importer.netquest.digital
+    http:
+      paths:
+      - backend:
+          serviceName: analytics-netrica-importer
+          servicePort: 9091
+        path: /
