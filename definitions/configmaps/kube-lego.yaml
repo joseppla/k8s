@@ -7,5 +7,6 @@ data:
   # modify this to specify your address
   lego.email: "josep.pla@gmail.com"
   # configre letencrypt's production api
+  #lego.url: "https://acme-v01.api.letsencrypt.org/directory"
   lego.url: "https://acme-v01.api.letsencrypt.org/directory"
 kind: ConfigMap

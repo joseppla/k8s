@@ -11,20 +11,15 @@ spec:
   tls:
   - hosts:
     - kubeops.net
-    - www.kubeops.net
     secretName: kube-lego-account
+  backend:
+    serviceName: ghost
+    servicePort: 80
   rules:
   - host: kubeops.net
     http:
       paths:
-      - backend:
+      - path: /*
+        backend:
           serviceName: ghost
-          servicePort: 30000
-        path: /
-  - host: www.kubeops.net
-    http:
-      paths:
-      - backend:
-          serviceName: ghost
-          servicePort: 30000
-        path: /
+          servicePort: 80
